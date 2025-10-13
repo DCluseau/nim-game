@@ -27,29 +27,30 @@ MATCH_MIN = 1
 MATCH_MAX = 4
 NUMBER_OF_MATCHES = 21
 
-# Initial grid
-grid = {[1],[1,1],[1,1,1],[1,1,1,1]}
 # Players' scores (user and computer)
-score_user = 0
-score_computer = 0
+player_1 = {"name": "", "score": 0}
+player_2 = {"name": "", "score": 0}
+players_list = [player_1, player_2]
+nb_of_remaining_matches = 21
 
 def display_grid():
     """
     usage : displaying grid
     :return:
     """
-
+    grid = []
     print(grid)
 
-def remove_match(match_to_remove):
+def remove_match(match_to_remove, rest_nb_matches):
     """
 
+    :param rest_nb_matches:
     :param match_to_remove:
     :return:
     """
-    # Example : remove the match on the first line
-    match_to_remove = [1,1]
+    match_to_remove = 1
+    rest_nb_matches -= match_to_remove
 
-    return grid
+    return nb_of_remaining_matches
 
 
