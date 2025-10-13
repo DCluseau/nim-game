@@ -33,13 +33,19 @@ player_2 = {"name": "", "score": 0}
 players_list = [player_1, player_2]
 nb_of_remaining_matches = 21
 
-def display_grid():
+def display_grid(nb_matches):
     """
     usage : displaying grid
+
+    :param nb_matches:
     :return:
     """
     grid = []
-    print(grid)
+    for i in range(NUMBER_OF_MATCHES - nb_matches):
+        grid.append(" ")
+    for i in range(nb_matches):
+        grid.append("|")
+    print(f"{grid}")
 
 def remove_match(match_to_remove, rest_nb_matches):
     """
@@ -52,5 +58,24 @@ def remove_match(match_to_remove, rest_nb_matches):
     rest_nb_matches -= match_to_remove
 
     return nb_of_remaining_matches
+
+play_mode = int(input("Please enter which type of game you want to play : \n1 - Against another player; \n0 - Against the computer\n"))
+
+player_1["name"] = str(input("Please input the first player's name : \n"))
+
+if play_mode == 0:
+    player_2["name"] = "computer"
+elif play_mode == 1:
+        player_2["name"] = str(input("Please input the second player's name : \n"))
+else:
+    print("Error")
+
+display_grid(21)
+
+while nb_of_remaining_matches > 0:
+    nb_to_remove = 0
+    while nb_to_remove not in range(0, 5):
+        nb_to_remove = int(input("How many matches do you want to remove ? \n"))
+
 
 
