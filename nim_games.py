@@ -27,55 +27,95 @@ MATCH_MIN = 1
 MATCH_MAX = 4
 NUMBER_OF_MATCHES = 21
 
-# Players' scores (user and computer)
-player_1 = {"name": "", "score": 0}
-player_2 = {"name": "", "score": 0}
+# Players' scores (users and/or computer)
+player_1 = {"name": "", "score": "Gagné !"}
+player_2 = {"name": "", "score": "Gagné ! "}
+# List of players
 players_list = [player_1, player_2]
+# Number of remaining matches
 nb_of_remaining_matches = 21
+# Number of matches the user just removed (for calculating of many matches the computer removes)
+nb_matches_removed = 0
+
 
 def display_grid(nb_matches):
     """
     usage : displaying grid
 
     :param nb_matches:
+        Total number of matches to display
     :return:
     """
     grid = []
-    for i in range(NUMBER_OF_MATCHES - nb_matches):
+    for diff_matches in range(NUMBER_OF_MATCHES - nb_matches):
         grid.append(" ")
-    for i in range(nb_matches):
+    for diff_matches in range(nb_matches):
         grid.append("|")
     print(f"{grid}")
 
-def remove_match(match_to_remove, rest_nb_matches):
-    """
 
-    :param rest_nb_matches:
-    :param match_to_remove:
+def update_nb_matches(removed_matches, remaining_matches):
+    """
+    usage : update the number of remaining matches
+
+    :param removed_matches:
+        number of matches to remove
+    :param remaining_matches:
+        number of remaining matches before removing the other number
     :return:
     """
-    match_to_remove = 1
-    rest_nb_matches -= match_to_remove
+    remaining_matches -= removed_matches
+    return remaining_matches
 
-    return nb_of_remaining_matches
+def choose_play_mode():
+    """
+    usage : choose if the user plays against the computer or against another user
 
-play_mode = int(input("Please enter which type of game you want to play : \n1 - Against another player; \n0 - Against the computer\n"))
+    :return:
+    """
+    choice = int(input("Please enter which type of game you want to play : \n1 - Against another player; \n0 - Against the computer\n"))
+    return choice
 
-player_1["name"] = str(input("Please input the first player's name : \n"))
+play_mode = choose_play_mode()
+player_1["name"] = str(input("Please input player 1's name : \n"))
 
 if play_mode == 0:
     player_2["name"] = "computer"
 elif play_mode == 1:
-        player_2["name"] = str(input("Please input the second player's name : \n"))
+        player_2["name"] = str(input("Please input player 2's name : \n"))
 else:
-    print("Error")
+    print("Error : choice must be a number between 0 and 1.")
 
 display_grid(21)
 
 while nb_of_remaining_matches > 0:
     nb_to_remove = 0
-    while nb_to_remove not in range(0, 5):
-        nb_to_remove = int(input("How many matches do you want to remove ? \n"))
-
-
+    while nb_to_remove not in range(1, 4):
+        if play_mode == 0:
+            # User against computer
+            # Computer plays first
+            nb_of_remaining_matches = update_nb_matches(5 - nb_matches_removed, nb_of_remaining_matches)
+            display_grid(nb_of_remaining_matches)
+            if nb_of_remaining_matches < 1:
+                player_2["score"] = "Perdu !"
+            if nb_of_remaining_matches > 0:
+                # Player
+                nb_to_remove = int(input("How many matches do you want to remove ? "))
+                nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
+                display_grid(nb_of_remaining_matches)
+                nb_matches_removed = nb_to_remove
+                if nb_of_remaining_matches < 1:
+                    player_1["score"] = "Perdu !"
+        else:
+            for i in range(2):
+                if nb_of_remaining_matches > 0:
+                    # User against user
+                    nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
+                    nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
+                    display_grid(nb_of_remaining_matches)
+                    if nb_of_remaining_matches < 1:
+                        players_list[i]["score"] = "Perdu !"
+print("Scores : ")
+print(f"{player_1["name"]} : {player_1["score"]}")
+print(f"{player_2["name"]} : {player_2["score"]}")
 
