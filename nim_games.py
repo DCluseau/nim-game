@@ -47,11 +47,14 @@ def display_grid(nb_matches):
         Total number of matches to display
     :return:
     """
-    grid = []
+    # grid = []
+    grid = ""
     for diff_matches in range(NUMBER_OF_MATCHES - nb_matches):
-        grid.append(" ")
+        grid += f" "
+        # grid.append(" ")
     for diff_matches in range(nb_matches):
-        grid.append("|")
+        grid += f" | "
+        # grid.append("|")
     print(f"{grid}")
 
 
@@ -83,6 +86,7 @@ def choose_play_mode():
 
 player_1["name"] = str(input("Please input player 1's name : \n"))
 
+# Choosing type of game and who begins
 who_begins = 0
 while play_mode not in range(1,3):
     play_mode = choose_play_mode()
@@ -103,58 +107,48 @@ while play_mode not in range(1,3):
     else:
         print("Error : choice must be a number between 1 and 2.")
 
+# Beginning game
 display_grid(21)
 if who_begins == 2:
     if play_mode == 1:
         nb_of_remaining_matches = update_nb_matches(4, nb_of_remaining_matches)
+        print("Computer's turn")
     i = 0
 while nb_of_remaining_matches > 0:
     nb_to_remove = 0
-    # i = who_begins
-    # if i == 1:
-    #     if play_mode == 1:
-    #         nb_of_remaining_matches = update_nb_matches(5 - nb_to_remove, nb_of_remaining_matches)
-    #         nb_to_remove = 0
-    #     else:
-    #         while nb_to_remove not in range(1, 5):
-    #             try:
-    #                 nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
-    #             except ValueError:
-    #                 nb_to_remove = 0
-    #                 print("Error : value must be a number between 1 and 4.")
-    #         nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
-    # i = 0
-    display_grid(nb_of_remaining_matches)
     for i in range(0, 2):
+        display_grid(nb_of_remaining_matches)
         if nb_of_remaining_matches > 0:
             if play_mode == 1:
                 if  i == 1:
+                    print("Computer's turn")
                     nb_of_remaining_matches = update_nb_matches(5 - nb_matches_removed, nb_of_remaining_matches)
                     # display_grid(nb_of_remaining_matches)
                 else:
                     nb_to_remove = 0
                     while nb_to_remove not in range(1, 5):
                         try:
+                            print(f"{players_list[i]["name"]}'s turn")
                             nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
                         except ValueError:
                             nb_to_remove = 0
                             print("Error : value must be a number between 1 and 4.")
                     nb_matches_removed = nb_to_remove
                     nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
+                if nb_of_remaining_matches < 1:
+                    players_list[i]["score"] = "Perdu !"
             else:
                 nb_to_remove = 0
                 while nb_to_remove not in range(1, 5):
                     try:
-                        nb_to_remove = int(
-                            input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
+                        print(f"{players_list[i]["name"]}'s turn")
+                        nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
                     except ValueError:
                         nb_to_remove = 0
                         print("Error : value must be a number between 1 and 4.")
                 nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
-            # display_grid(nb_of_remaining_matches)
-            who_begins = 1
-        if nb_of_remaining_matches < 1:
-            players_list[i]["score"] = "Perdu !"
+                if nb_of_remaining_matches < 1:
+                    players_list[i]["score"] = "Perdu !"
         if i == 1:
             i = 0
         else:
