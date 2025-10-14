@@ -88,10 +88,14 @@ while play_mode not in range(1,3):
     play_mode = choose_play_mode()
     if play_mode == 1:
         player_2["name"] = "computer"
-        who_begins = 2
+        while who_begins not in range(1, 3):
+            try:
+                who_begins = int(input("Please choose which player will begin : (1 or 2) \n"))
+            except ValueError:
+                print("Error : choice must be a number between 1 and 2.")
     elif play_mode == 2:
         player_2["name"] = str(input("Please input player 2's name : \n"))
-        while who_begins not in range(1, 2):
+        while who_begins not in range(1, 3):
             try:
                 who_begins = int(input("Please choose which player will begin : (1 or 2) \n"))
             except ValueError:
@@ -100,48 +104,61 @@ while play_mode not in range(1,3):
         print("Error : choice must be a number between 1 and 2.")
 
 display_grid(21)
-
+if who_begins == 2:
+    if play_mode == 1:
+        nb_of_remaining_matches = update_nb_matches(4, nb_of_remaining_matches)
+    i = 0
 while nb_of_remaining_matches > 0:
     nb_to_remove = 0
-    if play_mode == 1:
-        # User against computer
-        # Computer plays first
-        if nb_matches_removed == 0:
-            nb_matches_removed = 1
-        nb_of_remaining_matches = update_nb_matches(5 - nb_matches_removed, nb_of_remaining_matches)
-        display_grid(nb_of_remaining_matches)
-        if nb_of_remaining_matches < 1:
-            player_2["score"] = "Perdu !"
-        # User's turn
+    # i = who_begins
+    # if i == 1:
+    #     if play_mode == 1:
+    #         nb_of_remaining_matches = update_nb_matches(5 - nb_to_remove, nb_of_remaining_matches)
+    #         nb_to_remove = 0
+    #     else:
+    #         while nb_to_remove not in range(1, 5):
+    #             try:
+    #                 nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
+    #             except ValueError:
+    #                 nb_to_remove = 0
+    #                 print("Error : value must be a number between 1 and 4.")
+    #         nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
+    # i = 0
+    display_grid(nb_of_remaining_matches)
+    for i in range(0, 2):
         if nb_of_remaining_matches > 0:
-            while nb_to_remove not in range(1, 4):
-                try:
-                    nb_to_remove = int(input("How many matches do you want to remove ? "))
-                except ValueError:
+            if play_mode == 1:
+                if  i == 1:
+                    nb_of_remaining_matches = update_nb_matches(5 - nb_matches_removed, nb_of_remaining_matches)
+                    # display_grid(nb_of_remaining_matches)
+                else:
                     nb_to_remove = 0
-                    print("Error : value must be a number between 1 and 4.")
-                # Player
-            nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
-            display_grid(nb_of_remaining_matches)
-            nb_matches_removed = nb_to_remove
-            if nb_of_remaining_matches < 1:
-                player_1["score"] = "Perdu !"
-    else:
-        # User against user
-        for i in range(who_begins - 1, 2):
-            if nb_of_remaining_matches > 0:
+                    while nb_to_remove not in range(1, 5):
+                        try:
+                            nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
+                        except ValueError:
+                            nb_to_remove = 0
+                            print("Error : value must be a number between 1 and 4.")
+                    nb_matches_removed = nb_to_remove
+                    nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
+            else:
                 nb_to_remove = 0
                 while nb_to_remove not in range(1, 5):
                     try:
-                        nb_to_remove = int(input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
+                        nb_to_remove = int(
+                            input(f"{players_list[i]["name"]}, how many matches do you want to remove ? "))
                     except ValueError:
                         nb_to_remove = 0
                         print("Error : value must be a number between 1 and 4.")
                 nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
-                display_grid(nb_of_remaining_matches)
-                who_begins = 1
-            if nb_of_remaining_matches < 1:
-                players_list[i]["score"] = "Perdu !"
+            # display_grid(nb_of_remaining_matches)
+            who_begins = 1
+        if nb_of_remaining_matches < 1:
+            players_list[i]["score"] = "Perdu !"
+        if i == 1:
+            i = 0
+        else:
+            i = 1
 print("Scores : ")
 print(f"{player_1["name"]} : {player_1["score"]}")
 print(f"{player_2["name"]} : {player_2["score"]}")
