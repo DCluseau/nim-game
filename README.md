@@ -1,7 +1,7 @@
 # Jeu de Nim
 
 - [But du jeu](#but-du-jeu)
-- [Règles](#regles)
+- [Règles](#règles)
 - [Variantes](#variantes)
 - [Utilisation](#utilisation)
 
