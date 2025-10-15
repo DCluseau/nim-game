@@ -124,7 +124,6 @@ if who_begins == 2:
         nb_to_remove = player_choose_matches(players_list[1])
         nb_of_remaining_matches = update_nb_matches(nb_to_remove, nb_of_remaining_matches)
 while nb_of_remaining_matches > 0:
-    nb_to_remove = 0
     for i in range(0, 2):
         display_grid(nb_of_remaining_matches)
         if nb_of_remaining_matches > 0:
