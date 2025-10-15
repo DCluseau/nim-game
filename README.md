@@ -1,6 +1,9 @@
 # Jeu de Nim
 
-[But du jeu](#but-du-jeu)
+- [But du jeu](#but-du-jeu)
+- [Règles](#regles)
+- [Variantes](#variantes)
+- [Utilisation](#utilisation)
 
 ## But du jeu
 Deux jouers s'affrontent en enlevant des allumettes d'un tas. Le perdant est celui qui enlève la dernière allumette.
