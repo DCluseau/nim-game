@@ -6,7 +6,7 @@
 - [Utilisation](#utilisation)
 
 ## But du jeu
-Deux jouers s'affrontent en enlevant des allumettes d'un tas. Le perdant est celui qui enlève la dernière allumette.
+Deux joueurs s'affrontent en enlevant des allumettes d'un tas. Le perdant est celui qui enlève la dernière allumette.
 
 ## Règles
 - Le jeu se joue à deux ou bien contre l'ordinateur
@@ -18,7 +18,7 @@ Deux jouers s'affrontent en enlevant des allumettes d'un tas. Le perdant est cel
 ## Variantes
 - Variante classique : Deux joueurs s’affrontent dans ce jeu en se partageant un tas d’allumettes composé au départ de 21 allumettes. Chaque joueur à son tour enlève entre une et quatre allumettes du tas. Celui qui enlève la dernière allumette a perdu.
 
-- Variante dite de Marienbad : il y a au départ quatre tas, avec respectivement 1, 3, 5 et 7 allumettes. À chaque tour, le joueur (dont c'est le tour) prend le nombre d'allumettes qu'il veut, au moins une et dans un même tas. Celui qui prend la dernière allumette perd. Permettre dans un premier temps d’arbitrer une telle partie entre deux joueurs humains, puis proposer de pouvoir jouer contre l’ordinateur appliquant une stratégie de votre cru (peu importe s’il ne joue pas très bien).
+- Variante dite de Marienbad : Il y a au départ quatre tas, avec respectivement 1, 3, 5 et 7 allumettes. À chaque tour, le joueur (dont c'est le tour) prend le nombre d'allumettes qu'il veut, au moins une et dans un même tas. Celui qui prend la dernière allumette perd.
 
 ## Utilisation
 - Installer Python v3
