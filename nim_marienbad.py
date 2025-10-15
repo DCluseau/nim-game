@@ -77,10 +77,8 @@ def computer_choice(tab_pile):
         if tab_pile[j] > 0 and computer_pile_choice == -1:
             computer_pile_choice = j
     matches_removed = 1
-    tab_pile[j] -= matches_removed
+    tab_pile[computer_pile_choice] -= matches_removed
     return tab_pile
-
-    return computer_pile_choice
 
 # Remove matches
 def remove_pile_matches(arr_piles, pile_number, matches_number):
@@ -132,7 +130,9 @@ beginner = choose_player()
 if beginner == 2:
     if game_mode == 1:
         # Computer plays
+        print("Computer's turn")
         piles_grid = computer_choice(piles_grid)
+        nb_matches_left -= 1
     else:
         print(f"{players_piles_list[1]["name"]}'s turn")
         print(f"Number of matches left : {nb_matches_left}")
@@ -146,19 +146,26 @@ while nb_matches_left > 0:
     for i in (0, 1):
         if game_mode == 1 and i == 1:
             # Computer plays
+            print(f"{players_piles_list[i]["name"]}'s turn")
+            print(f"Number of matches left : {nb_matches_left}")
             piles_grid = computer_choice(piles_grid)
+            nb_matches_left -= 1
             display_piles(piles_grid)
         else:
-            display_piles(piles_grid)
             print(f"{players_piles_list[i]["name"]}'s turn")
             print(f"Number of matches left : {nb_matches_left}")
             pile_nb = player_choose_pile(piles_grid)
             nb_pile_remove = player_choose_matches(players_piles_list[i], piles_grid[pile_nb])
             piles_grid = remove_pile_matches(piles_grid, pile_nb, nb_pile_remove)
             nb_matches_left -= nb_pile_remove
+            display_piles(piles_grid)
         if nb_matches_left == 0:
             players_piles_list[i]["score"] = "Perdu !"
-
+            break
+        if i == 1:
+            i = 0
+        else:
+            i = 1
 print("Terminé !")
 print("Scores :")
 for i in range(2):
