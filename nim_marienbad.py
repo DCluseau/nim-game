@@ -16,6 +16,7 @@ player_1 = {"name": "", "score": "Gagné !"}
 player_2 = {"name": "", "score": "Gagné ! "}
 # List of players
 players_piles_list = [player_1, player_2]
+game_mode = 0
 
 # Display piles
 def display_piles(grid):
@@ -37,7 +38,7 @@ def name_player(player):
     :param player:
     :return:
     """
-    player["name"] = str(input("Please input player 1's name : \n"))
+    player["name"] = str(input(f"Please input player {player["name"]}'s name : \n"))
     return player
 
 # Choose number of matches to remove
@@ -65,8 +66,8 @@ def player_choose_pile(piles_left):
             print("Error : number must be between 1 and 4 and has to have at least one match left.")
             pile_number = -1
         elif piles_left[pile_number] == 0:
-                print("Error : 0 matches left in this pile.")
-                pile_number = -1
+            print("Error : 0 matches left in this pile.")
+            pile_number = -1
     return pile_number
 
 # Computer removes matches
@@ -75,6 +76,10 @@ def computer_choice(tab_pile):
     for j in range(4):
         if tab_pile[j] > 0 and computer_pile_choice == -1:
             computer_pile_choice = j
+    matches_removed = 1
+    tab_pile[j] -= matches_removed
+    return tab_pile
+
     return computer_pile_choice
 
 # Remove matches
@@ -89,28 +94,68 @@ def choose_pile_game_mode():
 
     :return:
     """
-    try:
-        choice = int(input("Please enter which type of game you want to play : \n1 - Against the computer \n2 - Against another player\n"))
-    except ValueError:
-        choice = 0
-
+    choice = 0
+    while choice == 0:
+        try:
+            choice = int(input("Please enter which type of game you want to play : \n1 - Against the computer \n2 - Against another player\n"))
+        except ValueError:
+            choice = 0
+        if choice not in (1,2):
+            choice = 0
     return choice
+
+# Choosing type of game and who begins
+def choose_player():
+    who_begins = 0
+    while who_begins not in range(1,3):
+        try:
+            who_begins = int(input("Please choose which player will begin : (1 or 2) \n"))
+        except ValueError:
+            print("Error : choice must be a number between 1 and 2.")
+            who_begins = 0
+        if who_begins not in range(1, 3):
+            print("Error : choice must be a number between 1 and 2.")
+            who_begins = 0
+    return who_begins
 
 display_piles(piles_grid)
 
+game_mode = choose_pile_game_mode()
 players_piles_list[0] = name_player(players_piles_list[0])
 
-players_piles_list[1] = name_player(players_piles_list[1])
+if game_mode == 2:
+    players_piles_list[1] = name_player(players_piles_list[1])
+else:
+    players_piles_list[1]["name"] = "Computer"
 
-while nb_matches_left > 0:
-    for i in (0, 1):
-        display_piles(piles_grid)
-        print(f"{players_piles_list[i]["name"]}'s turn")
+beginner = choose_player()
+if beginner == 2:
+    if game_mode == 1:
+        # Computer plays
+        piles_grid = computer_choice(piles_grid)
+    else:
+        print(f"{players_piles_list[1]["name"]}'s turn")
         print(f"Number of matches left : {nb_matches_left}")
         pile_nb = player_choose_pile(piles_grid)
-        nb_pile_remove = player_choose_matches(players_piles_list[i], piles_grid[pile_nb])
+        nb_pile_remove = player_choose_matches(players_piles_list[1], piles_grid[pile_nb])
         piles_grid = remove_pile_matches(piles_grid, pile_nb, nb_pile_remove)
         nb_matches_left -= nb_pile_remove
+
+display_piles(piles_grid)
+while nb_matches_left > 0:
+    for i in (0, 1):
+        if game_mode == 1 and i == 1:
+            # Computer plays
+            piles_grid = computer_choice(piles_grid)
+            display_piles(piles_grid)
+        else:
+            display_piles(piles_grid)
+            print(f"{players_piles_list[i]["name"]}'s turn")
+            print(f"Number of matches left : {nb_matches_left}")
+            pile_nb = player_choose_pile(piles_grid)
+            nb_pile_remove = player_choose_matches(players_piles_list[i], piles_grid[pile_nb])
+            piles_grid = remove_pile_matches(piles_grid, pile_nb, nb_pile_remove)
+            nb_matches_left -= nb_pile_remove
         if nb_matches_left == 0:
             players_piles_list[i]["score"] = "Perdu !"
 
