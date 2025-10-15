@@ -21,5 +21,5 @@ Deux jouers s'affrontent en enlevant des allumettes d'un tas. Le perdant est cel
 - Entrer le ou les noms des joueurs
 - Choisissez qui commence
 - Selon les variantes :
-  _Classique : chacun attend son tour puis entre combien d'allumettes il veut enlever
-  _Marienbad : chacun attend son tour puis indique dans quelle pile il veut enlever des allumettes ainsi que combien il en enlève
+  - Classique : chacun attend son tour puis entre combien d'allumettes il veut enlever
+  - Marienbad : chacun attend son tour puis indique dans quelle pile il veut enlever des allumettes ainsi que combien il en enlève
